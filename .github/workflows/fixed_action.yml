@@ -15,26 +15,55 @@ jobs:
       - name: 检出仓库
         uses: actions/checkout@v4
 
-      - name: 更新博客文章列表
-        uses: gautamkrishnar/blog-post-workflow@v1
+      # 步骤1：先清洗标题（移除|）和验证时间格式
+      - name: 清洗博客数据并生成列表
+        run: |
+          # 安装依赖
+          npm install feedparser moment
+          # 编写脚本处理feed
+          cat > process-feed.js << 'EOF'
+          const FeedParser = require('feedparser');
+          const fs = require('fs');
+          const moment = require('moment');
+
+          const feedUrl = 'https://blog.xingshuang.xyz/atom.xml';
+          const maxPosts = 5;
+          let posts = [];
+
+          // 解析feed
+          fs.createReadStream(require('url').parse(feedUrl))
+            .pipe(new FeedParser())
+            .on('readable', function() {
+              let item;
+              while (item = this.read()) {
+                // 清洗标题：移除末尾|
+                const cleanTitle = item.title.replace(/\|$/, '').trim();
+                // 格式化时间
+                const formattedDate = moment(item.pubDate).format('YYYY年MM月DD日');
+                // 收集文章
+                posts.push(`✨📅 ${formattedDate} - [${cleanTitle}](${item.link})`);
+              }
+            })
+            .on('end', function() {
+              // 取最新5篇并写入临时文件
+              const postList = posts.slice(0, maxPosts).join('\n');
+              fs.writeFileSync('blog-list.txt', postList);
+            });
+          EOF
+          # 运行脚本
+          node process-feed.js
+
+      # 步骤2：替换README中的博客列表
+      - name: 更新README
+        run: |
+          # 读取生成的博客列表
+          BLOG_LIST=$(cat blog-list.txt)
+          # 替换README中BLOG-POST-LIST标签间的内容
+          sed -i "/<!-- BLOG-POST-LIST:START -->/,/<!-- BLOG-POST-LIST:END -->/c\<!-- BLOG-POST-LIST:START -->\n$BLOG_LIST\n<!-- BLOG-POST-LIST:END -->" README.md
+
+      # 步骤3：提交修改
+      - name: 提交更新
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          feed_list: "https://blog.xingshuang.xyz/atom.xml"
-          comment_tag_name: "BLOG-POST-LIST"
           commit_message: "🤖 自动更新博客文章列表"
-          max_post_count: 5
-          # 修正模板：使用 $newline 确保每篇文章后有换行，同时保证链接格式正确
-          template: "✨📅 $date - [$title]($url)$newline"
-          # 保持原样，但将通过 item_exec 覆盖日期
-          date_format: "yyyy年MM月dd日"
-          # 最终修正 item_exec：
-          # 1. 移除标题末尾的 | 字符和所有空白字符，确保链接正确解析
-          # 2. 强制修正日期格式，使用 item.date 的月份和日期，以绕过 date_format 的错误
-          item_exec: |
-            item.title = item.title.replace(/\\s*\\|\\s*$/, '');
-            // 强制修正日期格式：从 item.date (Date对象) 中提取正确的月份和日期
-            const date = new Date(item.date);
-            const year = date.getFullYear();
-            // getMonth() 返回 0-11，所以需要 +1
-            const month = (date.getMonth() + 1).toString().padStart(2, '0');
-            const day = date.getDate().toString().padStart(2, '0');
-            item.date = `${year}年${month}月${day}日`;
+          file_pattern: README.md
