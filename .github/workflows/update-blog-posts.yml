@@ -15,47 +15,61 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       
-    - name: Fetch Atom feed
-      uses: actions-hub/rss@1.0
-      id: rss
-      with:
-        url: https://blog.xingshuang.xyz/atom.xml
-        limit: 5
+    - name: Fetch and parse Atom feed
+      id: fetch-feed
+      run: |
+        # 下载并解析 Atom feed
+        curl -s https://blog.xingshuang.xyz/atom.xml > feed.xml
         
-    - name: Process and update README
-      uses: actions/github-script@v7
-      env:
-        RSS_ITEMS: ${{ steps.rss.outputs.items }}
-      with:
-        script: |
-          const items = JSON.parse(process.env.RSS_ITEMS || '[]');
-          
-          // 生成博客内容
-          let blogContent = '';
-          items.forEach(item => {
-            const date = new Date(item.pubDate).toISOString().split('T')[0];
-            const title = item.title.replace(/[\[\]]/g, '');
-            blogContent += `${date}-[${title}](${item.link})\n`;
-          });
-          
-          // 读取和更新 README
-          const fs = require('fs');
-          let readmeContent = fs.readFileSync('README.md', 'utf8');
-          
-          const startMarker = '<!-- BLOG_POSTS_START -->';
-          const endMarker = '<!-- BLOG_POSTS_END -->';
-          const newSection = `${startMarker}\n${blogContent}${endMarker}`;
-          const regex = new RegExp(`${startMarker}[\\s\\S]*?${endMarker}`);
-          
-          if (readmeContent.match(regex)) {
-            readmeContent = readmeContent.replace(regex, newSection);
-          } else {
-            readmeContent += `\n\n${newSection}\n`;
-          }
-          
-          fs.writeFileSync('README.md', readmeContent);
-          
-    - name: Commit and push
+        # 使用 xmllint 解析 XML（需要安装）
+        sudo apt-get install -y libxml2-utils
+        
+        # 提取文章信息并生成 Markdown 格式
+        ARTICLES=$(xmllint --xpath "//*[local-name()='entry']" feed.xml 2>/dev/null | \
+          while IFS= read -r entry; do
+            if [ -n "$entry" ]; then
+              title=$(echo "$entry" | xmllint --xpath "string(//*[local-name()='title']/text())" - 2>/dev/null | sed 's/[][]//g')
+              link=$(echo "$entry" | xmllint --xpath "string(//*[local-name()='link']/@href)" - 2>/dev/null)
+              date=$(echo "$entry" | xmllint --xpath "string(//*[local-name()='published']/text())" - 2>/dev/null | cut -d'T' -f1)
+              if [ -z "$date" ]; then
+                date=$(echo "$entry" | xmllint --xpath "string(//*[local-name()='updated']/text())" - 2>/dev/null | cut -d'T' -f1)
+              fi
+              if [ -n "$title" ] && [ -n "$link" ] && [ -n "$date" ]; then
+                echo "$date-[$title]($link)"
+              fi
+            fi
+          done | head -5)
+        
+        echo "ARTICLES<<EOF" >> $GITHUB_ENV
+        echo "$ARTICLES" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+        
+    - name: Update README
+      run: |
+        # 读取当前 README
+        if [ -f README.md ]; then
+          cp README.md README.md.bak
+        fi
+        
+        # 生成新的博客部分
+        BLOG_SECTION="<!-- BLOG_POSTS_START -->"$'\n'"$ARTICLES"$'\n'"<!-- BLOG_POSTS_END -->"
+        
+        if grep -q "<!-- BLOG_POSTS_START -->" README.md; then
+          # 替换现有部分
+          awk -v new_section="$BLOG_SECTION" '
+            /<!-- BLOG_POSTS_START -->/ { printing=1; print new_section; next }
+            /<!-- BLOG_POSTS_END -->/ { printing=0; next }
+            !printing { print }
+          ' README.md.bak > README.md
+        else
+          # 添加新部分
+          echo "" >> README.md
+          echo "$BLOG_SECTION" >> README.md
+        fi
+        
+        rm -f README.md.bak feed.xml
+        
+    - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
