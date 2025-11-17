@@ -28,9 +28,9 @@ jobs:
           commit_message: "🤖 自动更新博客文章列表"
           # 显示最新的 5 篇文章
           max_post_count: 5
-          # 修复后的自定义显示模板：时间-文章超链接
-          template: "$date - [$title]($url)"
-          # 修复后的日期格式：使用 'YYYY-MM-DD' 格式，以确保 $date 变量能正确显示日期
-          date_format: "YYYY-MM-DD"
-          # 确保使用 $date 变量而不是 $publishedDate，因为 $publishedDate 可能会包含时间戳
-          # 并且 $date 变量会使用 date_format 进行格式化
+          # 自定义显示模板 - 修复日期格式
+          template: "<li><span>{{date}}</span> - <a href='{{url}}' target='_blank'>{{title}}</a></li>"
+          # 日期格式
+          date_format: "yyyy年mm月dd日"
+          # 添加时间格式
+          time_format: "HH:MM:ss"
