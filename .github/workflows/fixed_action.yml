@@ -22,11 +22,9 @@ jobs:
           comment_tag_name: "BLOG-POST-LIST"
           commit_message: "🤖 自动更新博客文章列表"
           max_post_count: 5
-          # 修复模板：确保正确的Markdown格式，并移除多余的换行符
-          template: "✨📅 $date - [$title]($url)"
-          # 修复日期格式：使用正确的月份占位符 'MM'，并添加换行符
-          date_format: "yyyy年MM月dd日\n"
-          # 修复换行符：使用 post_list_separator 替代 template 中的 \n $newline
-          post_list_separator: "\n"
-          # 确保链接正确解析：添加 item_exec 选项，移除标题末尾的 | 字符
-          item_exec: "title = title.replace(/\\|$/, '');"
+          # 修正模板：使用 $newline 确保每篇文章后有换行，同时保证链接格式正确
+          template: "✨📅 $date - [$title]($url)$newline"
+          # 修正日期格式：使用正确的月份占位符 'MM'
+          date_format: "yyyy年MM月dd日"
+          # 修正 item_exec：使用 item.title 变量，移除标题末尾的 | 字符，确保链接正确解析
+          item_exec: "item.title = item.title.replace(/\\|$/, '');"
