@@ -2,11 +2,12 @@ name: 更新最新博客文章
 
 on:
   schedule:
+    # 每天 UTC 时间 0 点运行（北京时间早上 8 点）
     - cron: '0 0 * * *'
-  workflow_dispatch:
+  workflow_dispatch: # 允许手动触发
 
 permissions:
-  contents: write
+  contents: write # 允许写入内容
 
 jobs:
   update-readme-with-blog:
@@ -15,13 +16,21 @@ jobs:
     steps:
       - name: 检出仓库
         uses: actions/checkout@v4
-        
+      
       - name: 更新博客文章列表
         uses: gautamkrishnar/blog-post-workflow@v1
         with:
+          # 你的博客 RSS/Atom feed 地址
           feed_list: "https://blog.xingshuang.xyz/atom.xml"
+          # README 中的标记位置
           comment_tag_name: "BLOG-POST-LIST"
+          # 提交信息
           commit_message: "🤖 自动更新博客文章列表"
+          # 显示最新的 5 篇文章
           max_post_count: 5
-          template: "✨ $pubDate - [$title]($url)"
-          date_format: "yyyy年mm月dd日"
+          # 修复后的自定义显示模板：时间-文章超链接
+          template: "$date - [$title]($url)"
+          # 修复后的日期格式：使用 'YYYY-MM-DD' 格式，以确保 $date 变量能正确显示日期
+          date_format: "YYYY-MM-DD"
+          # 确保使用 $date 变量而不是 $publishedDate，因为 $publishedDate 可能会包含时间戳
+          # 并且 $date 变量会使用 date_format 进行格式化
