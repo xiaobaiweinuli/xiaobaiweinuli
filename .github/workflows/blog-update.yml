@@ -23,5 +23,5 @@ jobs:
           comment_tag_name: "BLOG-POST-LIST"
           commit_message: "🤖 自动更新博客文章列表"
           max_post_count: 5
-          template: "✨ $date - [$title]($url)"
+          template: "✨ $date - [$title]($url)\n"
           date_format: "yyyy年MM月dd日"
