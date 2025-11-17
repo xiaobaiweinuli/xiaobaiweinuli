@@ -23,12 +23,38 @@ jobs:
           comment_tag_name: "BLOG-POST-LIST"
           commit_message: "🤖 自动更新博客文章列表"
           max_post_count: 5
-          # 不使用 date_format，改用 item_exec 解析 ISO 日期
-          item_exec: |
-            const d = new Date(post.published);
-            const yyyy = d.getUTCFullYear();
-            const MM = String(d.getUTCMonth() + 1).padStart(2, '0'); // 月份要 +1
-            const dd = String(d.getUTCDate()).padStart(2, '0');
-            post.date = `${yyyy}年${MM}月${dd}日`;
-            post.title = (post.title || '').replace(/<[^>]+>/g, '').replace(/\|/g, '').trim();
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          readme_path: ./README.md
+          disable_sort: false
+          sort_order: desc
+          reverse_order: false
+          filter_comments: stackoverflow/Comment by $author/,stackexchange/Comment by $author/
+          user_agent: rss-parser
+          accept_header: application/rss+xml
+          committer_username: blog-post-bot
+          committer_email: blog-post-bot@example.com
+          output_only: false
+          enable_keepalive: true
+          retry_count: 0
+          retry_wait_time: 1
+          disable_html_encoding: false
+          categories_template: default
+          disable_item_validation: false
+          skip_commit: false
+          dummy_commit_message: dummy commit to keep the repository active, see https://git.io/Jtm4V
+          # 模板，每条博客单独换行
           template: "$newline✨📅 $date - [$title]($url) \n $newline"
+          # 稳健解析日期并清理标题
+          item_exec: |
+            // 优先使用 published，没有则 fallback 到 updated
+            const dateStr = post.published || post.updated;
+            const cleanDateStr = (dateStr || "").trim();
+            const d = new Date(cleanDateStr);
+            if (isNaN(d)) {
+              const now = new Date();
+              post.date = `${now.getUTCFullYear()}年${String(now.getUTCMonth()+1).padStart(2,'0')}月${String(now.getUTCDate()).padStart(2,'0')}日`;
+            } else {
+              post.date = `${d.getUTCFullYear()}年${String(d.getUTCMonth()+1).padStart(2,'0')}月${String(d.getUTCDate()).padStart(2,'0')}日`;
+            }
+            // 清理标题：去掉 HTML 标签和竖线
+            post.title = (post.title || '').replace(/<[^>]+>/g, '').replace(/\|/g, '').trim();
