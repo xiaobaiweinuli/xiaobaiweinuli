@@ -2,9 +2,8 @@ name: Update Blog Posts in README
 
 on:
   schedule:
-    # 每天凌晨2点运行（UTC时间）
-    - cron: '0 2 * * *'
-  workflow_dispatch:  # 允许手动触发
+    - cron: '0 2 * * *'  # 每天 UTC 时间 2:00
+  workflow_dispatch:
   push:
     branches: [ main ]
 
@@ -15,22 +14,92 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      
+    - name: Fetch and parse Atom feed
+      id: fetch-feed
+      uses: actions/github-script@v7
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Set up Python
-      uses: actions/setup-python@v4
+        script: |
+          const https = require('https');
+          const { promisify } = require('util');
+          const { parseString } = require('xml2js');
+          
+          const parseXml = promisify(parseString);
+          
+          const feedUrl = 'https://blog.xingshuang.xyz/atom.xml';
+          
+          return new Promise((resolve, reject) => {
+            https.get(feedUrl, (res) => {
+              let data = '';
+              res.on('data', (chunk) => data += chunk);
+              res.on('end', async () => {
+                try {
+                  const result = await parseXml(data);
+                  const entries = result.feed.entry || [];
+                  
+                  const articles = entries.map(entry => {
+                    const title = entry.title[0]._ || entry.title[0];
+                    const link = entry.link.find(l => l.$.rel === 'alternate' || !l.$.rel).$.href;
+                    const date = new Date(entry.published[0] || entry.updated[0]).toISOString().split('T')[0];
+                    
+                    return {
+                      title: title.replace(/[\[\]]/g, ''),
+                      link: link,
+                      date: date
+                    };
+                  });
+                  
+                  // 按日期倒序排列，取最新5篇
+                  articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+                  const latestArticles = articles.slice(0, 5);
+                  
+                  core.setOutput('articles', JSON.stringify(latestArticles));
+                  resolve();
+                } catch (error) {
+                  reject(error);
+                }
+              });
+            }).on('error', reject);
+          });
+          
+    - name: Update README
+      uses: actions/github-script@v7
+      env:
+        ARTICLES: ${{ steps.fetch-feed.outputs.articles }}
       with:
-        python-version: '3.x'
-        
-    - name: Update blog posts in README
-      run: |
-        python .github/scripts/update_blog_posts.py
-        
-    - name: Commit and push if changed
+        script: |
+          const articles = JSON.parse(process.env.ARTICLES || '[]');
+          
+          // 生成博客内容
+          let blogContent = '';
+          articles.forEach(article => {
+            blogContent += `${article.date}-[${article.title}](${article.link})\n`;
+          });
+          
+          // 读取 README
+          const fs = require('fs');
+          let readmeContent = fs.readFileSync('README.md', 'utf8');
+          
+          // 更新标记之间的内容
+          const startMarker = '<!-- BLOG_POSTS_START -->';
+          const endMarker = '<!-- BLOG_POSTS_END -->';
+          
+          const newSection = `${startMarker}\n${blogContent}${endMarker}`;
+          const regex = new RegExp(`${startMarker}[\\s\\S]*?${endMarker}`);
+          
+          if (readmeContent.match(regex)) {
+            readmeContent = readmeContent.replace(regex, newSection);
+          } else {
+            readmeContent += `\n\n${newSection}\n`;
+          }
+          
+          // 写回 README
+          fs.writeFileSync('README.md', readmeContent);
+          
+    - name: Commit changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add README.md
-        git diff --staged --quiet || git commit -m "docs: update blog posts [skip ci]"
+        git diff --staged --quiet || git commit -m "docs: update latest blog posts"
         git push
