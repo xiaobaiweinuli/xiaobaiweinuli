@@ -1,7 +1,8 @@
 name: 更新最新博客文章
+
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * *' # 每天 UTC 时间 0 点执行
   workflow_dispatch:
 
 permissions:
@@ -22,9 +23,12 @@ jobs:
           comment_tag_name: "BLOG-POST-LIST"
           commit_message: "🤖 自动更新博客文章列表"
           max_post_count: 5
-          # 使用正确的月份 token（MM），并使用 UTC 前缀以固定时区
-          date_format: "UTC: yyyy年MM月dd日"
-          # 更稳健的清理：去除 HTML 标签、清理竖线并 trim（注意反斜杠需要在 YAML 双引号中转义）
-          item_exec: "post.title = (post.title || '').replace(/<[^>]+>/g, '').replace(/\\|/g, '').trim()"
-          # 模板以 $newline 开头，确保条目在注释标签后单独成行；条目后加 $newline 以分隔条目
+          # 不使用 date_format，改用 item_exec 解析 ISO 日期
+          item_exec: |
+            const d = new Date(post.published);
+            const yyyy = d.getUTCFullYear();
+            const MM = String(d.getUTCMonth() + 1).padStart(2, '0'); // 月份要 +1
+            const dd = String(d.getUTCDate()).padStart(2, '0');
+            post.date = `${yyyy}年${MM}月${dd}日`;
+            post.title = (post.title || '').replace(/<[^>]+>/g, '').replace(/\|/g, '').trim();
           template: "$newline✨📅 $date - [$title]($url) \n $newline"
