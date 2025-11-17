@@ -31,11 +31,6 @@
   <img src="https://github-readme-stats.vercel.app/api?username=xiaobaiweinuli&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&locale=cn" alt="GitHub 统计" />
   
 </div>
-<div align="center">
-  
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=xiaobaiweinuli&theme=tokyonight&hide_border=true&locale=zh_Hans" alt="连续贡献统计" />
-  
-</div>
 
 <div align="center">
   
