@@ -22,9 +22,11 @@ jobs:
           comment_tag_name: "BLOG-POST-LIST"
           commit_message: "🤖 自动更新博客文章列表"
           max_post_count: 5
-      # 使用正确的日期格式：MM 表示月份（大写 MM），mm 在此 Action 中会被解析为分钟
+          # 使用正确的月份 token（MM），并使用 UTC 前缀以固定时区
           date_format: "UTC: yyyy年MM月dd日"
-      # 自动清理标题中的竖线和首尾空格 —— 用单行字符串并对反斜杠进行转义，确保 item_exec 正确传入并执行
-          item_exec: "post.title = post.title.replace(/\\|/g, '').trim()"
-      # 模板末尾放两个换行，确保条目之间有空行，避免行首合并在同一行的问题
-          template: "✨📅 $date - [$title]($url)$newline$newline"
+          # 更稳健的清理：去除 HTML 标签、清理竖线并 trim（注意反斜杠需要在 YAML 双引号中转义）
+          item_exec: "post.title = (post.title || '').replace(/<[^>]+>/g, '').replace(/\\|/g, '').trim()"
+          # 模板以 $newline 开头，确保条目在注释标签后单独成行；条目后加 $newline 以分隔条目
+          template: "$newline✨📅 $date - [$title]($url)$newline"
+          # （可选）调试时启用，不会写回 README，执行后在 workflow 输出中查看 results
+          output_only: true
