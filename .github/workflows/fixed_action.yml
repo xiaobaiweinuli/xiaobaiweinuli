@@ -24,7 +24,7 @@ jobs:
           max_post_count: 5
           # 修正模板：使用 $newline 确保每篇文章后有换行，同时保证链接格式正确
           template: "✨📅 $date - [$title]($url)$newline"
-          # 修正日期格式：使用正确的月份占位符 'mm' (月份)
-          date_format: "yyyy年mm月dd日"
-          # 修正 item_exec：使用 item.title 变量，移除标题末尾的 | 字符，确保链接正确解析
-          item_exec: "item.title = item.title.replace(/\\|$/, '');"
+          # 最终修正日期格式：使用正确的月份占位符 'mm' (月份)
+          date_format: "ddd mmm dd yyyy h:MM TT"
+          # 最终修正 item_exec：移除标题末尾的 | 字符和所有空白字符，确保链接正确解析
+          item_exec: "item.title = item.title.replace(/\\s*\\|\\s*$/, '');"
