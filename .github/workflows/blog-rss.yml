@@ -14,8 +14,6 @@ jobs:
       - name: Pull in eryajf posts
         uses: gautamkrishnar/blog-post-workflow@v1
         with:
-          max_post_count: 6
-          committer_username: "eryajf"
-          committer_email: "eryajf@163.com"
-          feed_list: "https://wiki.eryajf.net/rss.xml"
+          max_post_count: 5
+          feed_list: "https://blog.xingshuang.xyz/atom.xml"
           template: "$newline- $randomEmoji(💯,🔥,💫,🚀,🌮,📝,🥳,💻,🧰,🏊,🥰,🧐,🤓,😎,🥸,🤩,🤗,🤔,🫣,🤭,🤠,👹,👺,🤡,🤖,🎃,😺,🫶,👍,💪,💄,👀,🧠,🧑‍🏫,👨‍🏫,💂,🧑‍💻,🥷,💃,🕴,💼,🎓,🐻,🐵,🙉,🦄,🦆,🦅,🦍,🦣,🐘,🦒,🦏,🐎,🦩,🐲,🌝,🌜,🌏,🌈,🌊,🎬,🎭,🚀,🚦,⛽️,🗽,🎡,🌋,🌁,💡,🕯,🪜,🧰,⚗️,🔭,🪄,🎊,🎉,) [$title]($url) $newline"
