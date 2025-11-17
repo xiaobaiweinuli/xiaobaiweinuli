@@ -27,6 +27,4 @@ jobs:
           # 更稳健的清理：去除 HTML 标签、清理竖线并 trim（注意反斜杠需要在 YAML 双引号中转义）
           item_exec: "post.title = (post.title || '').replace(/<[^>]+>/g, '').replace(/\\|/g, '').trim()"
           # 模板以 $newline 开头，确保条目在注释标签后单独成行；条目后加 $newline 以分隔条目
-          template: "$newline✨📅 $date - [$title]($url)$newline"
-          # （可选）调试时启用，不会写回 README，执行后在 workflow 输出中查看 results
-          output_only: true
+          template: "$newline✨📅 $date - [$title]($url) \n $newline"
