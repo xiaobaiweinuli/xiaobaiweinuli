@@ -2,7 +2,7 @@ name: 更新最新博客文章
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * *' # 每天 UTC 时间 0 点执行
   workflow_dispatch:
 
 permissions:
@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: 检出仓库
         uses: actions/checkout@v4
-        
+
       - name: 更新博客文章列表
         uses: gautamkrishnar/blog-post-workflow@v1
         with:
@@ -23,5 +23,8 @@ jobs:
           comment_tag_name: "BLOG-POST-LIST"
           commit_message: "🤖 自动更新博客文章列表"
           max_post_count: 5
+          # 模板：日期 + 超链接，每篇文章一行
           template: "✨📅 $date - [$title]($url) \n $newline"
           date_format: "yyyy年MM月dd日"
+          # 自动处理标题尾部可能出现的 | 符号
+          item_exec: "item.title = item.title.replace(/\\|$/,'');"
