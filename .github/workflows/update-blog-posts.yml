@@ -7,6 +7,10 @@ on:
   push:
     branches: [ main ]
 
+# 设置 GITHUB_TOKEN 的权限
+permissions:
+  contents: write
+
 jobs:
   update-blog-posts:
     runs-on: ubuntu-latest
@@ -14,61 +18,13 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      
+      with:
+        # 明确设置 token
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
     - name: Fetch and parse Atom feed
-      id: fetch-feed
-      run: |
-        # 下载并解析 Atom feed
-        curl -s https://blog.xingshuang.xyz/atom.xml > feed.xml
-        
-        # 使用 xmllint 解析 XML（需要安装）
-        sudo apt-get install -y libxml2-utils
-        
-        # 提取文章信息并生成 Markdown 格式
-        ARTICLES=$(xmllint --xpath "//*[local-name()='entry']" feed.xml 2>/dev/null | \
-          while IFS= read -r entry; do
-            if [ -n "$entry" ]; then
-              title=$(echo "$entry" | xmllint --xpath "string(//*[local-name()='title']/text())" - 2>/dev/null | sed 's/[][]//g')
-              link=$(echo "$entry" | xmllint --xpath "string(//*[local-name()='link']/@href)" - 2>/dev/null)
-              date=$(echo "$entry" | xmllint --xpath "string(//*[local-name()='published']/text())" - 2>/dev/null | cut -d'T' -f1)
-              if [ -z "$date" ]; then
-                date=$(echo "$entry" | xmllint --xpath "string(//*[local-name()='updated']/text())" - 2>/dev/null | cut -d'T' -f1)
-              fi
-              if [ -n "$title" ] && [ -n "$link" ] && [ -n "$date" ]; then
-                echo "$date-[$title]($link)"
-              fi
-            fi
-          done | head -5)
-        
-        echo "ARTICLES<<EOF" >> $GITHUB_ENV
-        echo "$ARTICLES" >> $GITHUB_ENV
-        echo "EOF" >> $GITHUB_ENV
-        
-    - name: Update README
-      run: |
-        # 读取当前 README
-        if [ -f README.md ]; then
-          cp README.md README.md.bak
-        fi
-        
-        # 生成新的博客部分
-        BLOG_SECTION="<!-- BLOG_POSTS_START -->"$'\n'"$ARTICLES"$'\n'"<!-- BLOG_POSTS_END -->"
-        
-        if grep -q "<!-- BLOG_POSTS_START -->" README.md; then
-          # 替换现有部分
-          awk -v new_section="$BLOG_SECTION" '
-            /<!-- BLOG_POSTS_START -->/ { printing=1; print new_section; next }
-            /<!-- BLOG_POSTS_END -->/ { printing=0; next }
-            !printing { print }
-          ' README.md.bak > README.md
-        else
-          # 添加新部分
-          echo "" >> README.md
-          echo "$BLOG_SECTION" >> README.md
-        fi
-        
-        rm -f README.md.bak feed.xml
-        
+      # ... 之前的步骤保持不变 ...
+      
     - name: Commit and push changes
       run: |
         git config --local user.email "1613589162@qq.com"
