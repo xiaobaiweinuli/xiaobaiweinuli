@@ -27,4 +27,4 @@ jobs:
           template: "✨📅 $date - [$title]($url) \n $newline"
           date_format: "yyyy年MM月dd日"
           # 自动处理标题尾部可能出现的 | 符号
-          item_exec: "item.title = item.title.replace(/\\|$/,'');"
+          item_exec: "item.title = item.title.replace(/[\\s|]+$/g,'');"
