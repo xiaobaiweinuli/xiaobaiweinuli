@@ -25,10 +25,3 @@ jobs:
           # 修复模板：确保正确的Markdown格式
           template: "✨📅 $date - [$title]($url) \n $newline"
           date_format: "yyyy年MM月dd日"
-          # 加强标题清理
-          item_exec: |
-            item.title = item.title.replace(/[\s|]+$/g, '');
-            // 同时清理开头可能的多余字符
-            item.title = item.title.replace(/^[\s|]+/g, '');
-          # 添加时区设置确保日期正确
-          timezone: "Asia/Shanghai"
