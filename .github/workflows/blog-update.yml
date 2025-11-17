@@ -24,4 +24,4 @@ jobs:
           commit_message: "🤖 自动更新博客文章列表"
           max_post_count: 5
           template: "🌌───────────────────────────────\n📅 $publishedDate  \n🔗 [$title]($url)  \n🌌───────────────────────────────\n"
-          date_format: "yyyy年mm月dd日"
+          date_format: "yyyy年MM月dd日"
