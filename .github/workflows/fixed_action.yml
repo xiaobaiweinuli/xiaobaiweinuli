@@ -1,8 +1,7 @@
 name: 更新最新博客文章
-
 on:
   schedule:
-    - cron: '0 0 * * *' # 每天 UTC 时间 0 点执行
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 permissions:
@@ -23,38 +22,21 @@ jobs:
           comment_tag_name: "BLOG-POST-LIST"
           commit_message: "🤖 自动更新博客文章列表"
           max_post_count: 5
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
-          readme_path: ./README.md
-          disable_sort: false
-          sort_order: desc
-          reverse_order: false
-          filter_comments: stackoverflow/Comment by $author/,stackexchange/Comment by $author/
-          user_agent: rss-parser
-          accept_header: application/rss+xml
-          committer_username: blog-post-bot
-          committer_email: blog-post-bot@example.com
-          output_only: false
-          enable_keepalive: true
-          retry_count: 0
-          retry_wait_time: 1
-          disable_html_encoding: false
-          categories_template: default
-          disable_item_validation: false
-          skip_commit: false
-          dummy_commit_message: dummy commit to keep the repository active, see https://git.io/Jtm4V
-          # 模板，每条博客单独换行
-          template: "$newline✨📅 $date - [$title]($url) \n $newline"
-          # 手动解析日期，删除 date_format
+          # 使用 published 字段而不是 updated 字段
+          feed_date_field: "published"
+          # 简化日期格式，避免时区问题
+          date_format: "yyyy年MM月dd日"
+          # 清理标题
           item_exec: |
-            // 优先使用 published，没有则 fallback 到 updated
-            const dateStr = post.published || post.updated;
-            const cleanDateStr = (dateStr || "").trim();
-            const d = new Date(cleanDateStr);
-            if (isNaN(d)) {
-              const now = new Date();
-              post.date = `${now.getUTCFullYear()}年${String(now.getUTCMonth()+1).padStart(2,'0')}月${String(now.getUTCDate()).padStart(2,'0')}日`;
-            } else {
-              post.date = `${d.getUTCFullYear()}年${String(d.getUTCMonth()+1).padStart(2,'0')}月${String(d.getUTCDate()).padStart(2,'0')}日`;
-            }
-            // 清理标题：去掉 HTML 标签和竖线
             post.title = (post.title || '').replace(/<[^>]+>/g, '').replace(/\|/g, '').trim();
+            // 确保日期正确解析
+            if (post.published) {
+              const date = new Date(post.published);
+              if (!isNaN(date.getTime())) {
+                post.date = date.getFullYear() + '年' + 
+                           String(date.getMonth() + 1).padStart(2, '0') + '月' + 
+                           String(date.getDate()).padStart(2, '0') + '日';
+              }
+            }
+          # 模板
+          template: "$newline✨📅 $date - [$title]($url)$newline"
