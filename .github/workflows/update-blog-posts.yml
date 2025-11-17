@@ -1,0 +1,36 @@
+name: Update Blog Posts in README
+
+on:
+  schedule:
+    # 每天凌晨2点运行（UTC时间）
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # 允许手动触发
+  push:
+    branches: [ main ]
+
+jobs:
+  update-blog-posts:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+        
+    - name: Update blog posts in README
+      run: |
+        python .github/scripts/update_blog_posts.py
+        
+    - name: Commit and push if changed
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add README.md
+        git diff --staged --quiet || git commit -m "docs: update blog posts [skip ci]"
+        git push
