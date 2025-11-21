@@ -26,17 +26,16 @@
 
 ## 📊 GitHub 统计
 
-<div align="center">
-  
-  <img src="https://github-readme-stats.vercel.app/api?username=xiaobaiweinuli&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&locale=cn" alt="GitHub 统计" />
-  
-</div>
-
-<div align="center">
-  
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=xiaobaiweinuli&layout=compact&theme=tokyonight&hide_border=true&langs_count=8&locale=cn" alt="最常使用的语言" />
-  
-</div>
+<table align="center">
+  <tr>
+    <td>
+      <img src="https://github-readme-stats.vercel.app/api?username=xiaobaiweinuli&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&locale=cn" alt="GitHub 统计" />
+    </td>
+    <td>
+      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=xiaobaiweinuli&layout=compact&theme=tokyonight&hide_border=true&langs_count=8&locale=cn" alt="最常使用的语言" />
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -87,17 +86,20 @@
 
 ## 🌟 精选项目
 
-<div align="center">
-  
-  <a href="https://github.com/xiaobaiweinuli/qywx-push">
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=xiaobaiweinuli&repo=qywx-push&theme=tokyonight&hide_border=true&locale=cn" alt="qywx-push" />
-  </a>
-  
-  <a href="https://github.com/xiaobaiweinuli/custom-share-domain-plugin">
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=xiaobaiweinuli&repo=custom-share-domain-plugin&theme=tokyonight&hide_border=true&locale=cn" alt="custom-share-domain-plugin" />
-  </a>
-
-</div>
+<table align="center">
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://github.com/xiaobaiweinuli/qywx-push">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=xiaobaiweinuli&repo=qywx-push&theme=tokyonight&hide_border=true&locale=cn&description_lines_count=3" alt="qywx-push" width="100%" />
+      </a>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://github.com/xiaobaiweinuli/custom-share-domain-plugin">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=xiaobaiweinuli&repo=custom-share-domain-plugin&theme=tokyonight&hide_border=true&locale=cn&description_lines_count=3" alt="custom-share-domain-plugin" width="100%" />
+      </a>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -161,4 +163,3 @@
   ![](https://hit.yhype.me/github/profile?user_id=94781176)
   
 </div>
-
