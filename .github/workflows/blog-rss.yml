@@ -22,7 +22,11 @@ jobs:
           comment_tag_name: "BLOG-POST-LIST"
           commit_message: "🤖 自动更新博客文章列表"
           max_post_count: 5
-          # 更稳健的清理：去除 HTML 标签、清理竖线并 trim（注意反斜杠需要在 YAML 双引号中转义）
+          # 提取自定义标签：发布时间和更新时间
+          custom_tags: "publishedTime/published/,updatedTime/updated/"
+          # 清理标题中的 HTML 标签和竖线
           item_exec: "post.title = (post.title || '').replace(/<[^>]+>/g, '').replace(/\\|/g, '').trim()"
-          # 模板以 $newline 开头，确保条目在注释标签后单独成行；条目后加 $newline 以分隔条目
-          template: "$newline✨[$title]($url) \n $newline"
+          # 设置日期格式：年-月-日
+          date_format: "yyyy-mm-dd"
+          # 模板：显示标题、链接、发布时间和更新时间
+          template: "$newline✨[$title]($url)  \n📅 发布: $publishedTime | 更新: $updatedTime$newline"
