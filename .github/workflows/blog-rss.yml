@@ -22,23 +22,8 @@ jobs:
           comment_tag_name: "BLOG-POST-LIST"
           commit_message: "🤖 自动更新博客文章列表"
           max_post_count: 5
-          # 提取自定义标签：发布时间和更新时间
+          retry_count: 3
+          retry_wait_time: 5
           custom_tags: "publishedTime/published/,updatedTime/updated/"
-          # 清理标题并格式化日期
-          item_exec: |
-            post.title = (post.title || '').replace(/<[^>]+>/g, '').replace(/\\|/g, '').trim();
-            function formatDate(dateStr) {
-              if (!dateStr) return '';
-              const d = new Date(dateStr);
-              const year = d.getFullYear();
-              const month = String(d.getMonth() + 1).padStart(2, '0');
-              const day = String(d.getDate()).padStart(2, '0');
-              const hours = String(d.getHours()).padStart(2, '0');
-              const minutes = String(d.getMinutes()).padStart(2, '0');
-              const seconds = String(d.getSeconds()).padStart(2, '0');
-              return `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
-            }
-            post.publishedTime = formatDate(post.publishedTime);
-            post.updatedTime = formatDate(post.updatedTime);
-          # 模板：显示标题、链接、发布时间和更新时间
+          item_exec: "post.title = (post.title || '').replace(/<[^>]+>/g, '').replace(/\\|/g, '').trim(); function formatDate(dateStr) { if (!dateStr) return ''; const d = new Date(dateStr); const year = d.getFullYear(); const month = String(d.getMonth() + 1).padStart(2, '0'); const day = String(d.getDate()).padStart(2, '0'); const hours = String(d.getHours()).padStart(2, '0'); const minutes = String(d.getMinutes()).padStart(2, '0'); const seconds = String(d.getSeconds()).padStart(2, '0'); return year + '年' + month + '月' + day + '日 ' + hours + ':' + minutes + ':' + seconds; } post.publishedTime = formatDate(post.publishedTime); post.updatedTime = formatDate(post.updatedTime);"
           template: "$newline✨[$title]($url)  \n📅 发布: $publishedTime | 更新: $updatedTime$newline"
