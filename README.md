@@ -107,38 +107,38 @@
 
 <!-- BLOG-POST-LIST:START -->
 <details>
+<summary>📌 <b><a href="http://blog.xingshuang.xyz/2026/02/20/%E5%8F%8C%E6%89%A3-%E5%8D%87%E7%BA%A7%E8%A7%84%E5%88%99/">双扣-升级规则</a></b></summary>
+
+- 📅 发布时间: 2026年02月20日 17:07:53
+- 🔄 更新时间: 2026年02月20日 17:19:10
+</details>
+
+<details>
 <summary>📌 <b><a href="http://blog.xingshuang.xyz/2024/05/08/%E4%BD%BF%E7%94%A8DSU%20Sideloder%E5%AE%9E%E7%8E%B0%E5%AE%89%E5%8D%93%E5%8F%8C%E7%B3%BB%E7%BB%9F_/">使用DSU Sideloder实现安卓双系统</a></b></summary>
 
 - 📅 发布时间: 2024年05月08日 04:14:01
-- 🔄 更新时间: 2025年11月18日 16:13:28
+- 🔄 更新时间: 2026年02月20日 17:19:10
 </details>
 
 <details>
 <summary>📌 <b><a href="http://blog.xingshuang.xyz/2024/04/26/PDF%E5%88%86%E5%89%B2%E5%90%88%E5%B9%B6/">PDF分割合并</a></b></summary>
 
 - 📅 发布时间: 2024年04月26日 12:29:29
-- 🔄 更新时间: 2025年11月18日 16:13:28
+- 🔄 更新时间: 2026年02月20日 17:19:10
 </details>
 
 <details>
 <summary>📌 <b><a href="http://blog.xingshuang.xyz/2024/04/25/%E7%94%B5%E5%AD%90%E4%B9%A6%E8%B5%84%E6%BA%90/">电子书资源</a></b></summary>
 
 - 📅 发布时间: 2024年04月25日 10:21:28
-- 🔄 更新时间: 2025年11月18日 16:13:28
+- 🔄 更新时间: 2026年02月20日 17:19:10
 </details>
 
 <details>
 <summary>📌 <b><a href="http://blog.xingshuang.xyz/2024/04/21/Termux%E6%8E%A8%E9%80%81%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%88%B0GitHub%E4%BB%93%E5%BA%93/">Termux推送本地文件到GitHub仓库</a></b></summary>
 
 - 📅 发布时间: 2024年04月21日 10:51:45
-- 🔄 更新时间: 2025年11月18日 16:13:28
-</details>
-
-<details>
-<summary>📌 <b><a href="http://blog.xingshuang.xyz/2024/04/19/%E4%BD%BF%E7%94%A8Gridea%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%AF%BC%E8%88%AA%E7%AB%99/">使用Gridea搭建自己的导航站</a></b></summary>
-
-- 📅 发布时间: 2024年04月19日 15:34:45
-- 🔄 更新时间: 2025年11月18日 16:13:28
+- 🔄 更新时间: 2026年02月20日 17:19:10
 </details>
 <!-- BLOG-POST-LIST:END -->
 
