@@ -19,58 +19,7 @@
 - 💡 热爱探索新技术和框架
 - 👯 期待参与开源项目协作
 - 💬 欢迎与我交流技术相关的话题
-- 📫 联系方式：[GitHub](https://github.com/xiaobaiweinuli)
 - ⚡ 有趣的事实：代码是流动的诗歌
-
----
-
-## 📊 GitHub 统计
-
-<table align="center">
-  <tr>
-    <td>
-      <img src="https://github-readme-stats.vercel.app/api?username=xiaobaiweinuli&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&locale=cn" alt="GitHub 统计" />
-    </td>
-    <td>
-      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=xiaobaiweinuli&layout=compact&theme=tokyonight&hide_border=true&langs_count=8&locale=cn" alt="最常使用的语言" />
-    </td>
-  </tr>
-</table>
-
----
-
-## 🛠️ 技术栈
-
-### 编程语言
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)
-![Go](https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)
-
-### 前端开发
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Vue.js](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vue.js&logoColor=4FC08D)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-
-### 后端 & 数据库
-![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
-![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
-
-### 工具 & 平台
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
-![AWS](https://img.shields.io/badge/Amazon_AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 
 ---
 
@@ -81,25 +30,6 @@
   <img src="https://github-readme-activity-graph.vercel.app/graph?username=xiaobaiweinuli&theme=tokyo-night&hide_border=true" alt="贡献活动图" />
   
 </div>
-
----
-
-## 🌟 精选项目
-
-<table align="center">
-  <tr>
-    <td width="50%" valign="top">
-      <a href="https://github.com/xiaobaiweinuli/qywx-push">
-        <img src="https://github-readme-stats.vercel.app/api/pin/?username=xiaobaiweinuli&repo=qywx-push&theme=tokyonight&hide_border=true&locale=cn&description_lines_count=3" alt="qywx-push" width="100%" />
-      </a>
-    </td>
-    <td width="50%" valign="top">
-      <a href="https://github.com/xiaobaiweinuli/custom-share-domain-plugin">
-        <img src="https://github-readme-stats.vercel.app/api/pin/?username=xiaobaiweinuli&repo=custom-share-domain-plugin&theme=tokyonight&hide_border=true&locale=cn&description_lines_count=3" alt="custom-share-domain-plugin" width="100%" />
-      </a>
-    </td>
-  </tr>
-</table>
 
 ---
 
@@ -161,16 +91,6 @@
 <div align="center">
   
   ![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=tokyonight)
-  
-</div>
-
----
-
-## 👀 访问统计
-
-<div align="center">
-  
-  ![](https://komarev.com/ghpvc/?username=xiaobaiweinuli&color=blueviolet&style=for-the-badge&label=访问量)
   
 </div>
 
